@@ -33,15 +33,17 @@ def signup():
                 db.session.add(user)
                 db.session.commit()
                 return redirect("/")
+        return render_template("signup.html", form=SignUpForm())
+
     else:
         return redirect("/")
 
-    return render_template("signup.html", form=SignUpForm())
-
+    
 @auth.route("/auth/login", methods=["GET", "POST"])
 def login():
     session.permanent = True
     session.permanent_session_lifetime = timedelta(days=365) # pyright: ignore
+    print(session.get("current_user_id"))
     if session.get("current_user_id") is None:
         if request.method == "POST":
             email = request.form.get("email")
