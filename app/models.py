@@ -30,4 +30,4 @@ class Subject(db.Model):
 
 @login_manager.user_loader
 def load_user(uid):
-    return User.query.get(uid)
+    return User.query.get(str(uid))
