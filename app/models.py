@@ -16,6 +16,8 @@ class Semester(db.Model):
     uid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(80), nullable=False)
     subjects = db.relationship('Subject', backref='semester', lazy=True)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
 
 class Subject(db.Model):
     __tablename__ = 'subjects'
