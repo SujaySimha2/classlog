@@ -8,10 +8,12 @@ from flask import Flask
 from config import DevelopmentConfig
 from .exts import db, migrate, login_manager
 from .main import index
+from .auth import auth
 from .models import *
 
 def register_blueprints(app):
     app.register_blueprint(index)
+    app.register_blueprint(auth)
 
 def register_extensions(app):
     db.init_app(app)
