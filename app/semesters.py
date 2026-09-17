@@ -44,4 +44,24 @@ def create_semester():
 @semesters_bp.route("/semesters", methods=["GET"])
 @login_required
 def list_semesters():
+    uid = session.get("current_user_id")
+    semesters = Semester.query.filter_by(uid=uid).all()
+    return render_template("semesters.html", semesters=semesters)
+
+@semesters_bp.route("/semesters/<semester_id>/detail", methods=["GET"])
+@login_required
+def semester_detail(semester_id):
     return ""
+
+@semesters_bp.route("/semesters/<semester_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_semester(semester_id):
+    uid = session.get("current_user_id")
+    semester = Semester.query.filter_by(id=semester_id, uid=uid).first()
+    if semester:
+        db.session.delete(semester)
+        db.session.commit()
+        flash("Semester deleted successfully.", category="success")
+    else:
+        flash("Semester not found or you do not have permission to delete it.", category="error")
+    return redirect(url_for("semesters.list_semesters"))

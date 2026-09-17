@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semesters — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% with back_url=url_for('index.index_page'), back_label='Dashboard' %}
+    {% include 'partials/topbar.html' %}
+  {% endwith %}
+
+  <main class="page-main">
+    <div class="page-header">
+      <h1>Your semesters</h1>
+      <p>Each semester keeps its own subjects, timetable, and attendance record.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-message category-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div class="semester-grid">
+      {% for semester in semesters %}
+        <a class="semester-card" href="{{ url_for('semesters.semester_detail', semester_id=semester.id) }}">
+          <button
+            type="button"
+            class="semester-delete"
+            aria-label="Delete {{ semester.name }}"
+            data-delete-url="{{ url_for('semesters.delete_semester', semester_id=semester.id) }}"
+            data-semester-name="{{ semester.name }}"
+            onclick="event.preventDefault(); event.stopPropagation(); confirmDeleteSemester(this);"
+          >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 7H20M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M18 7L17.3 19.1C17.2 19.99 16.44 20.67 15.55 20.67H8.45C7.56 20.67 6.8 19.99 6.7 19.1L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <p class="semester-name">{{ semester.name }}</p>
+          <p class="semester-dates">{{ semester.start_date.strftime('%b %-d, %Y') }} &ndash; {{ semester.end_date.strftime('%b %-d, %Y') }}</p>
+        </a>
+      {% endfor %}
+
+      <a class="semester-card create-card" href="{{ url_for('semesters.create_semester') }}">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>Create semester</span>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    function confirmDeleteSemester(button) {
+      var name = button.getAttribute('data-semester-name');
+      var url = button.getAttribute('data-delete-url');
+      if (window.confirm('Delete "' + name + '"? This cannot be undone.')) {
+        window.location.href = url;
+      }
+    }
+  </script>
+
+</body>
+</html>
