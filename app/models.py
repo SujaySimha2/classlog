@@ -12,8 +12,8 @@ class User(db.Model, UserMixin):
 
 class Semester(db.Model):
     __tablename__ = 'semesters'
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    id = db.Column(db.String(5), primary_key=True)
+    uid = db.Column(db.String(5), db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(80), nullable=False)
     subjects = db.relationship('Subject', backref='semester', lazy=True)
     start_date = db.Column(db.Date, nullable=False)
@@ -21,9 +21,9 @@ class Semester(db.Model):
 
 class Subject(db.Model):
     __tablename__ = 'subjects'
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    sid = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False)
+    id = db.Column(db.String(5), primary_key=True)
+    uid = db.Column(db.String(5), db.ForeignKey('users.id'), nullable=False)
+    sid = db.Column(db.String(5), db.ForeignKey('semesters.id'), nullable=False)
     name = db.Column(db.String(80), nullable=False)
     code = db.Column(db.String(20), nullable=True)
     date_times = db.Column(db.JSON, nullable=True)
