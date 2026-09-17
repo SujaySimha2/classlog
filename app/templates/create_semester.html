@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New semester — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% with back_url=url_for('semesters.list_semesters'), back_label='Semesters' %}
+    {% include 'partials/topbar.html' %}
+  {% endwith %}
+
+  <main class="form-main">
+    <div class="form-panel">
+      <h1>New semester</h1>
+      <p class="form-subtext">Semesters group your subjects, timetable, and attendance into one term.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-list">
+            {% for category, message in messages %}
+              <li class="flash-message category-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('semesters.create_semester') }}" novalidate>
+        {{ form.hidden_tag() if form and form.hidden_tag }}
+
+        <div class="field-group">
+          {{ form.name.label }}
+          {{ form.name(placeholder="Fall 2026") }}
+          {% if form.name.errors %}
+            {% for error in form.name.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            {{ form.start_date.label }}
+            {{ form.start_date() }}
+            {% if form.start_date.errors %}
+              {% for error in form.start_date.errors %}
+                <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group">
+            {{ form.end_date.label }}
+            {{ form.end_date() }}
+            {% if form.end_date.errors %}
+              {% for error in form.end_date.errors %}
+                <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        <p class="field-hint">The end date must fall after the start date. You'll add subjects once the semester is created.</p>
+
+        <div class="form-actions">
+          <a class="btn-secondary" href="{{ url_for('semesters.list_semesters') }}">Cancel</a>
+          {{ form.submit(class_="btn-primary") }}
+        </div>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

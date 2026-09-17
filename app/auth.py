@@ -25,7 +25,7 @@ def signup():
             password: str = generate_password_hash(request.form.get("password")) # pyright: ignore
             id = "".join(choices(chars, k=5))
             if User.query.filter_by(email=email).first() is not None:
-                flash("Email already exists!")
+                flash("Email already exists!", category="error")
             else:
                 user = User(id=id, username=username, email=email, password_hash=password) # pyright: ignore
                 session["current_user_id"] = user.id
@@ -55,10 +55,10 @@ def login():
 
             else:
                 if user is None:
-                    flash("Email cannot be found!")
+                    flash("Email cannot be found!", category="error")
                 else:
                     if not check_password_hash(user.password_hash, password):
-                        flash("Password is incorrect!")
+                        flash("Password is incorrect!", category="error")
         return render_template("login.html", form=LoginForm())
     else:
         return redirect("/")

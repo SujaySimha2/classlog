@@ -9,11 +9,13 @@ from config import DevelopmentConfig
 from .exts import db, migrate, login_manager
 from .main import index
 from .auth import auth
+from .semesters import semesters_bp
 from .models import *
 
 def register_blueprints(app):
     app.register_blueprint(index)
     app.register_blueprint(auth)
+    app.register_blueprint(semesters_bp)
 
 def register_extensions(app):
     db.init_app(app)

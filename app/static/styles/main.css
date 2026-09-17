@@ -49,7 +49,7 @@ a {
 }
 
 .navbar-link {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid transparent;
@@ -78,8 +78,8 @@ a {
 
 .navbar-brand span {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.45rem;
+  font-weight: 400;
   letter-spacing: 0.01em;
 }
 
@@ -102,8 +102,8 @@ a {
 
 .auth-panel h1 {
   font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.65rem;
+  font-weight: 400;
+  font-size: 2rem;
   margin: 0 0 0.4rem;
 }
 
@@ -267,13 +267,118 @@ a {
 
 /* ---------- Responsive ---------- */
 
+/* ---------- Minimal top bar (in-app focused pages) ---------- */
+
+.topbar {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+
+.topbar-back:hover {
+  opacity: 1;
+}
+
+.topbar-back svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------- Form page (create/edit resources) ---------- */
+
+.form-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.form-panel {
+  width: 100%;
+  max-width: 460px;
+}
+
+.form-panel h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 2rem;
+  margin: 0 0 0.4rem;
+}
+
+.form-panel .form-subtext {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.65;
+  margin: 0 0 2rem;
+  line-height: 1.5;
+}
+
+.field-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.field-row .field-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--text);
+  opacity: 0.5;
+  margin-top: 0.35rem;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.form-actions .btn-primary {
+  width: auto;
+  flex: 1;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text);
+}
+
 @media (max-width: 480px) {
   .navbar {
     padding: 1rem 1.25rem;
   }
 
   .navbar-brand span {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
   .auth-panel {
@@ -285,5 +390,18 @@ a {
 
   .auth-main {
     padding: 2rem 0;
+  }
+
+  .topbar {
+    padding: 1rem 1.25rem;
+  }
+
+  .form-main {
+    padding: 2rem 1.25rem;
+  }
+
+  .field-row {
+    flex-direction: column;
+    gap: 0;
   }
 }

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms.fields import StringField, PasswordField, SubmitField, DateField
 from wtforms.validators import DataRequired
 
 
@@ -13,4 +13,10 @@ class SignUpForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired()])
+    submit = SubmitField()
+
+class SemesterForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
+    start_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
+    end_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
     submit = SubmitField()
