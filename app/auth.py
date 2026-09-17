@@ -1,10 +1,9 @@
-from flask import abort, Blueprint, flash, redirect, render_template, request
+from flask import Blueprint, flash, redirect, render_template, request
 from flask import session, url_for
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 # -----------------------------------------------------------------------
 from datetime import timedelta
-from functools import wraps
 from random import choices
 from string import ascii_uppercase, ascii_lowercase, digits
 # ---------------------------------------------------------
@@ -43,7 +42,6 @@ def signup():
 def login():
     session.permanent = True
     session.permanent_session_lifetime = timedelta(days=365) # pyright: ignore
-    print(session.get("current_user_id"))
     if session.get("current_user_id") is None:
         if request.method == "POST":
             email = request.form.get("email")
