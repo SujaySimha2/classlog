@@ -14,8 +14,8 @@
 
   <main class="page-main">
     <div class="page-header">
-      <h1>Your semesters</h1>
-      <p>Each semester keeps its own subjects, timetable, and attendance record.</p>
+      <h1>Your subjects</h1>
+      <!-- <p>Each semester keeps its own subjects, timetable, and attendance record.</p> -->
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -29,22 +29,24 @@
     {% endwith %}
 
     <div class="semester-grid">
-      {% for semester in semesters %}
-        <a class="semester-card" href="{{ url_for('semesters.semester_change', semester_id=semester.id) }}">
+      {% for subject in subjects %}
+      <!-- <a class="semester-card" href="{{ url_for('semesters.semester_change', semester_id=semester.id) }}"> -->
           <button
             type="button"
             class="semester-delete"
-            aria-label="Delete {{ semester.name }}"
-            data-delete-url="{{ url_for('semesters.delete_semester', semester_id=semester.id) }}"
-            data-semester-name="{{ semester.name }}"
+            aria-label="Delete {{ subject.name }}"
+            data-delete-url="{{ url_for('subjects.delete_subject', subject_id=subject.id) }}"
+            data-semester-name="{{ subject.name }}"
             onclick="event.preventDefault(); event.stopPropagation(); confirmDeleteSemester(this);"
           >
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 7H20M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M18 7L17.3 19.1C17.2 19.99 16.44 20.67 15.55 20.67H8.45C7.56 20.67 6.8 19.99 6.7 19.1L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <p class="semester-name">{{ semester.name }}</p>
-          <p class="semester-dates">{{ semester.start_date.strftime('%b %-d, %Y') }} &ndash; {{ semester.end_date.strftime('%b %-d, %Y') }}</p>
+          <p class="semester-name">{{ subject.name }}</p>
+          <p class="semester-dates">Code: {{ subject.code }}</p>
+          <br />
+          <p class="semester-dates">Minimum attendance: {{ subject.min_attendance }}%</p>
         </a>
       {% endfor %}
 

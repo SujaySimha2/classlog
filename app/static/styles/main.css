@@ -340,6 +340,24 @@ a {
   margin-top: 0.35rem;
 }
 
+.field-suffix-wrap {
+  position: relative;
+}
+
+.field-suffix-wrap input {
+  padding-right: 2.25rem;
+}
+
+.field-suffix {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .form-actions {
   display: flex;
   align-items: center;

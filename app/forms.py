@@ -20,3 +20,9 @@ class SemesterForm(FlaskForm):
     start_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
     end_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
     submit = SubmitField()
+
+class SubjectForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
+    code = StringField()
+    min_attendance = StringField(validators=[DataRequired()])
+    submit = SubmitField()

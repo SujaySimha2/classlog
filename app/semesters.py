@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session, abort
 from flask_login import login_required
 #---------------------------------------------------------
 from .exts import db
@@ -48,10 +48,16 @@ def list_semesters():
     semesters = Semester.query.filter_by(uid=uid).all()
     return render_template("semesters.html", semesters=semesters)
 
-@semesters_bp.route("/semesters/<semester_id>/detail", methods=["GET"])
+@semesters_bp.route("/semesters/<semester_id>/change", methods=["GET"])
 @login_required
-def semester_detail(semester_id):
-    return ""
+def semester_change(semester_id):
+    uid = session.get("current_user_id")
+    semester = Semester.query.filter_by(id=semester_id, uid=uid).first()
+    if semester:
+        session["current_semester_id"] = semester.id
+    else:
+        abort(404)
+    return redirect(url_for("index.index_page"))
 
 @semesters_bp.route("/semesters/<semester_id>/delete", methods=["GET", "POST"])
 @login_required
