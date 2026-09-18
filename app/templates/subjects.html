@@ -30,7 +30,7 @@
 
     <div class="semester-grid">
       {% for subject in subjects %}
-      <!-- <a class="semester-card" href="{{ url_for('semesters.semester_change', semester_id=semester.id) }}"> -->
+      <div class="semester-card">
           <button
             type="button"
             class="semester-delete"
@@ -44,17 +44,18 @@
             </svg>
           </button>
           <p class="semester-name">{{ subject.name }}</p>
+          <br />
           <p class="semester-dates">Code: {{ subject.code }}</p>
           <br />
           <p class="semester-dates">Minimum attendance: {{ subject.min_attendance }}%</p>
-        </a>
+        </div>
       {% endfor %}
 
-      <a class="semester-card create-card" href="{{ url_for('semesters.create_semester') }}">
+      <a class="semester-card create-card" href="{{ url_for('subjects.create_subject') }}">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <span>Create semester</span>
+        <span>Create subject</span>
       </a>
     </div>
   </main>

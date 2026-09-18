@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New subject — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% with back_url=url_for('subjects.manage_subjects'), back_label=semester.name+" subjects" %}
+    {% include 'partials/topbar.html' %}
+  {% endwith %}
+
+  <main class="form-main">
+    <div class="form-panel">
+      <h1>New subject</h1>
+      <p class="form-subtext">Add a subject to {{ semester.name }}, along with the attendance you're required to maintain.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-list">
+            {% for category, message in messages %}
+              <li class="flash-message category-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('subjects.create_subject', semester_id=semester.id) }}" novalidate>
+        {{ form.hidden_tag() if form and form.hidden_tag }}
+
+        <div class="field-group">
+          {{ form.name.label }}
+          {{ form.name(placeholder="Data Structures") }}
+          {% if form.name.errors %}
+            {% for error in form.name.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="field-group">
+          {{ form.code.label }}
+          {{ form.code(placeholder="CS 201") }}
+          {% if form.code.errors %}
+            {% for error in form.code.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="field-group">
+          {{ form.min_attendance.label }}
+          <div class="field-suffix-wrap">
+            {{ form.min_attendance(placeholder="85") }}
+            <span class="field-suffix">%</span>
+          </div>
+          {% if form.min_attendance.errors %}
+            {% for error in form.min_attendance.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+          <p class="field-hint">The minimum attendance you must maintain in this subject.</p>
+        </div>
+
+        <div class="form-actions">
+          <a class="btn-secondary" href="{{ url_for('subjects.manage_subjects') }}">Cancel</a>
+          {{ form.submit(class_="btn-primary") }}
+        </div>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

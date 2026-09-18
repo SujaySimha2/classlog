@@ -39,4 +39,22 @@ def create_subject():
 @subjects_bp.route("/subjects", methods=["GET"])
 @login_required
 def manage_subjects():
-    return ""
+    semester_id = session.get("current_semester_id")
+    if Semester.query.filter_by(id=semester_id).first().uid == session.get("current_user_id"): #pyright:ignore
+        subjects = Subject.query.filter_by(sid=semester_id).all()
+        return render_template("subjects.html", subjects=subjects)
+    else:
+        return abort(403)
+
+@subjects_bp.route("/subjects/<subject_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_subject(subject_id):
+    semester_id = session.get("current_semester_id")
+    subject = Subject.query.filter_by(id=subject_id, sid=semester_id).first()
+    if subject and subject.user.id == session.get("current_user_id"): #pyright:ignore
+        db.session.delete(subject)
+        db.session.commit()
+        flash("Subject deleted successfully.", category="success")
+        return redirect(url_for("subjects.manage_subjects"))
+    else:
+        return abort(403)
