@@ -26,7 +26,7 @@ class Subject(db.Model):
     sid = db.Column(db.String(5), db.ForeignKey('semesters.id'), nullable=False)
     name = db.Column(db.String(80), nullable=False)
     code = db.Column(db.String(20), nullable=True)
-    date_times = db.Column(db.JSON, nullable=True)
+    date_times = db.Column(db.JSON, nullable=True, default=[])
     attendance = db.Column(db.Integer, nullable=False, default=0)
     min_attendance = db.Column(db.Float, nullable=False, default=100.00)
 

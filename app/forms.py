@@ -1,5 +1,6 @@
+
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField, DateField
+from wtforms.fields import StringField, PasswordField, SubmitField, DateField, TimeField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -26,3 +27,9 @@ class SubjectForm(FlaskForm):
     code = StringField()
     min_attendance = StringField(validators=[DataRequired()])
     submit = SubmitField()
+
+class AttendanceForm(FlaskForm):
+    subject = SelectField("Select a subject", choices=[], validators=[DataRequired()])
+    date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
+    start_time = TimeField(validators=[DataRequired()], format="%H:%M")
+    end_time = TimeField(validators=[DataRequired()], format="%H:%M")
