@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% include 'partials/app_navbar.html' %}
+
+  <main class="page-main">
+    <div class="page-header">
+      <h1>{{ current_semester.name }}</h1>
+      <p>Your attendance across every subject this semester.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-message category-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div class="subject-grid">
+      {% for subject in subjects %}
+        <div
+          class="subject-card"
+          data-attendance="{{ subject.attendance }}"
+          data-min-attendance="{{ subject.min_attendance }}"
+        >
+          <div class="donut-wrap">
+            <svg viewBox="0 0 96 96">
+              <circle class="donut-track" cx="48" cy="48" r="40"></circle>
+              <circle class="donut-progress" cx="48" cy="48" r="40"></circle>
+            </svg>
+            <span class="donut-label">{{ subject.attendance_percent }}%</span>
+          </div>
+          <div class="subject-info">
+            <p class="subject-name">{{ subject.name }}</p>
+            <p class="subject-code">{{ subject.code }}</p>
+            <p class="subject-skip">
+              {% if classes_can_skip[loop.index0] >= 0 %}
+                You can skip <strong>{{ classes_can_skip[loop.index0] }}</strong> more class{{ '' if classes_can_skip[loop.index0] == 1 else 'es' }} and stay above {{ subject.min_attendance }}%.
+              {% else %}
+                {% if classes_to_recover[loop.index0] >= 0 %}    
+                  Attend <strong>{{ classes_to_recover[loop.index0] }}</strong> more class{{ '' if classes_to_recover[loop.index0] == 1 else 'es' }} to reach {{ subject.min_attendance }}%.
+                {% else %}
+                    You have already missed too many classes to reach {{ subject.min_attendance }}%.
+                {% endif %}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="mark-attendance-cta">
+      <h2>Have a class to log?</h2>
+      <p>Record today's class before you forget which ones you attended.</p>
+      <a class="btn-primary" href="{{ url_for('attendance.mark_attendance') }}">Mark attendance</a>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var CIRCUMFERENCE = 251.2;
+
+      function colorClassFor(attendance, minAttendance) {
+        if (attendance > minAttendance + 5) return 'color-success';
+        if (attendance >= minAttendance) return 'color-neutral';
+        if (attendance >= minAttendance - 5) return 'color-warning';
+        return 'color-error';
+      }
+
+      function animateDonut(card) {
+        var attendance = parseFloat(card.getAttribute('data-attendance'));
+        var minAttendance = parseFloat(card.getAttribute('data-min-attendance'));
+        var progress = card.querySelector('.donut-progress');
+
+        if (isNaN(attendance) || !progress) return;
+
+        progress.classList.add(colorClassFor(attendance, minAttendance));
+
+        var offset = CIRCUMFERENCE - (Math.min(Math.max(attendance, 0), 100) / 100) * CIRCUMFERENCE;
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            progress.style.strokeDashoffset = offset;
+          });
+        });
+      }
+
+      document.querySelectorAll('.subject-card').forEach(animateDonut);
+    })();
+  </script>
+
+</body>
+</html>

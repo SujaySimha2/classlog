@@ -83,6 +83,33 @@ a {
   letter-spacing: 0.01em;
 }
 
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links .navbar-link {
+  opacity: 0.75;
+}
+
+.navbar-links .navbar-link:hover {
+  opacity: 1;
+}
+
+.navbar-links .navbar-link.is-logout {
+  opacity: 0.5;
+}
+
+.navbar-links .navbar-link.is-logout:hover {
+  color: var(--error);
+  border-bottom-color: var(--error);
+  opacity: 1;
+}
+
 /* ---------- Auth layout ---------- */
 
 .auth-main {
@@ -181,6 +208,9 @@ a {
   cursor: pointer;
   margin-top: 0.25rem;
   transition: background-color 0.15s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 .btn-primary:hover {
@@ -450,46 +480,125 @@ a {
   color: #1A0E0C;
 }
 
-@media (max-width: 480px) {
-  .navbar {
-    padding: 1rem 1.25rem;
-  }
 
-  .navbar-brand span {
-    font-size: 1.25rem;
-  }
+/* ---------- Dashboard ---------- */
 
-  .auth-panel {
-    padding: 1.75rem 1.5rem;
-    border-left: none;
-    border-right: none;
-    max-width: 100%;
-  }
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
 
-  .auth-main {
-    padding: 2rem 0;
-  }
+.subject-card {
+  border: 1px solid var(--border);
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
 
-  .topbar {
-    padding: 1rem 1.25rem;
-  }
+.subject-info {
+  flex: 1;
+  min-width: 0;
+}
 
-  .form-main {
-    padding: 2rem 1.25rem;
-  }
+.subject-info .subject-name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  margin: 0 0 0.15rem;
+  line-height: 1.2;
+}
 
-  .field-row {
-    flex-direction: column;
-    gap: 0;
-  }
+.subject-info .subject-code {
+  font-size: 0.8rem;
+  opacity: 0.55;
+  margin: 0 0 0.9rem;
+}
 
-  .page-main {
-    padding: 2rem 1.25rem;
-  }
+.subject-info .subject-skip {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  margin: 0;
+  line-height: 1.4;
+}
 
-  .semester-grid {
-    grid-template-columns: 1fr;
-  }
+.subject-info .subject-skip strong {
+  font-weight: 600;
+  opacity: 1;
+}
+
+.donut-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
+.donut-wrap svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donut-track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 8;
+}
+
+.donut-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.donut-progress.color-success { stroke: var(--success); }
+.donut-progress.color-neutral { stroke: var(--text); }
+.donut-progress.color-warning { stroke: var(--warning); }
+.donut-progress.color-error   { stroke: var(--error); }
+
+.donut-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.mark-attendance-cta {
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.mark-attendance-cta h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem;
+}
+
+.mark-attendance-cta p {
+  font-size: 0.9rem;
+  opacity: 0.65;
+  margin: 0 0 1.5rem;
+}
+
+.mark-attendance-cta .btn-primary {
+  width: auto;
+  display: inline-block;
+  padding: 0.85rem 2.5rem;
 }
 
 /* ---------- List / browse pages ---------- */
@@ -604,4 +713,75 @@ a {
 .semester-card.create-card span {
   font-size: 0.95rem;
   font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem 1.25rem;
+  }
+
+  .auth-panel {
+    padding: 1.75rem 1.5rem;
+    border-left: none;
+    border-right: none;
+    max-width: 100%;
+  }
+
+  .auth-main {
+    padding: 2rem 0;
+  }
+
+  .topbar {
+    padding: 1rem 1.25rem;
+  }
+
+  .form-main {
+    padding: 2rem 1.25rem;
+  }
+
+  .field-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .page-main {
+    padding: 2rem 1.25rem;
+  }
+
+  .semester-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    row-gap: 0.75rem;
+  }
+
+  .navbar-links {
+    gap: 0.85rem;
+    order: 2;
+    flex-basis: 100%;
+  }
+
+  .navbar-links .navbar-link {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .navbar-brand {
+    order: 1;
+  }
+
+  .navbar-brand span {
+    font-size: 1.1rem;
+  }
+
+  .navbar-brand img {
+    width: 26px;
+    height: 26px;
+  }
 }

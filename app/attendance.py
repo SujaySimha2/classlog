@@ -66,3 +66,8 @@ def mark_attendance():
     else:
         flash("Please select a valid semester to mark attendance.", category="warning")
         return redirect(url_for("semesters.list_semesters"))
+
+@attendance_bp.route("/attendance/history", methods=["GET", "POST"])
+@login_required
+def attendance_history():
+    return ""
