@@ -22,19 +22,21 @@ def create_subject():
             semester_id = session.get("current_semester_id")
             name = request.form.get("name")
             code = request.form.get("code")
+            min_attendance = request.form.get("min_attendance")
             uid = session.get("current_user_id")
             id = "".join(choices(chars, k=5))
 
             if name == "":
                 flash("Subject name cannot be empty.", category="error")
             else:
-                subject = Subject(id=id, uid=uid, sid=semester_id, name=name, code=code) #pyright:ignore
+                subject = Subject(id=id, uid=uid, sid=semester_id, name=name, code=code, min_attendance=min_attendance) #pyright:ignore
                 db.session.add(subject)
                 db.session.commit()
                 return redirect(url_for("subjects.manage_subjects"))
         return render_template("create_subject.html", form=SubjectForm(), semester=semester)
     else:
-        return abort(403)
+        flash("Please select a valid semester to add subjects.", category="warning")
+        return redirect(url_for("semesters.list_semesters"))
 
 @subjects_bp.route("/subjects", methods=["GET"])
 @login_required
@@ -44,7 +46,8 @@ def manage_subjects():
         subjects = Subject.query.filter_by(sid=semester_id).all()
         return render_template("subjects.html", subjects=subjects)
     else:
-        return abort(403)
+        flash("Please select a valid semester to manage subjects.", category="warning")
+        return redirect(url_for("semesters.list_semesters"))
 
 @subjects_bp.route("/subjects/<subject_id>/delete", methods=["GET", "POST"])
 @login_required
