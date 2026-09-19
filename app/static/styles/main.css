@@ -601,7 +601,132 @@ a {
   padding: 0.85rem 2.5rem;
 }
 
-/* ---------- List / browse pages ---------- */
+/* ---------- History ---------- */
+
+.history-group {
+  margin-bottom: 2.5rem;
+}
+
+.history-group:last-child {
+  margin-bottom: 0;
+}
+
+.history-group-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+}
+
+.history-date {
+  width: 128px;
+  flex-shrink: 0;
+}
+
+.history-date .history-day {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.5;
+  margin: 0 0 0.15rem;
+}
+
+.history-date .history-full-date {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.history-time {
+  flex: 1;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  min-width: 0;
+}
+
+.status-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.status-pill.status-present {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.status-pill.status-absent {
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.history-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text);
+  opacity: 0.45;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.history-action:hover {
+  opacity: 1;
+}
+
+.history-action.action-delete:hover {
+  color: var(--error);
+}
+
+.history-action.action-edit:hover {
+  color: var(--accent-hover);
+}
+
+.history-action svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.history-empty {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  padding: 2rem 0;
+}
+
+
 
 .page-main {
   flex: 1;
@@ -783,5 +908,28 @@ a {
   .navbar-brand img {
     width: 26px;
     height: 26px;
+  }
+
+  .history-row {
+    flex-wrap: wrap;
+    row-gap: 0.6rem;
+  }
+
+  .history-date {
+    width: auto;
+  }
+
+  .history-time {
+    flex-basis: 100%;
+    order: 3;
+  }
+
+  .status-pill {
+    order: 2;
+  }
+
+  .history-actions {
+    order: 4;
+    margin-left: auto;
   }
 }

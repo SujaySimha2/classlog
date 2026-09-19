@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% with back_url=url_for('index.index_page'), back_label="Dashboard" %}
+    {% include 'partials/topbar.html' %}
+  {% endwith %}
+
+  <main class="page-main">
+    <div class="page-header">
+      <h1>Class history</h1>
+      <p>Every class recorded this semester, grouped by subject.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-message category-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% for subject in subjects %}
+      <div class="history-group">
+        <h2 class="history-group-title">{{ subject.name }}</h2>
+
+        {% if subject.date_times != [] %}
+          <div class="history-rows">
+            {% for record in subject.date_times %}
+              <div class="history-row">
+                <div class="history-date">
+                  <p class="history-day">{{ record[1].strftime('%A') }}</p>
+                  <p class="history-full-date">{{ record[1].strftime('%b %-d, %Y') }}</p>
+                </div>
+
+                <div class="history-time">
+                  {{ record[2].strftime('%-I:%M %p') }} &ndash; {{ record[3].strftime('%-I:%M %p') }}
+                </div>
+
+                <span class="status-pill status-{{ record.status }}">
+                  {{ 'Present' if record[4] == 'present' else 'Absent' }}
+                </span>
+
+                <div class="history-actions">
+                  <a
+                    class="history-action action-edit"
+                    href="{{ url_for('attendance.edit_attendance', subject_id=subject.id, id=loop.index0) }}"
+                    aria-label="Edit this record"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16.475 5.408l2.117 2.117m-1.414-3.53a1.5 1.5 0 0 1 2.121 0l1.293 1.292a1.5 1.5 0 0 1 0 2.122l-10.607 10.607-4.242 1.06 1.06-4.242L17.182 3.997z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                  <button
+                    type="button"
+                    class="history-action action-delete"
+                    aria-label="Delete this record"
+                    data-delete-url="{{ url_for('attendance.delete_attendance', subject_id=subject.id, id=loop.index0) }}"
+                    onclick="confirmDeleteAttendance(this);"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 7H20M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M18 7L17.3 19.1C17.2 19.99 16.44 20.67 15.55 20.67H8.45C7.56 20.67 6.8 19.99 6.7 19.1L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="history-empty">No classes recorded yet for this subject.</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </main>
+
+  <script>
+    function confirmDeleteAttendance(button) {
+      var url = button.getAttribute('data-delete-url');
+      if (window.confirm('Delete this attendance record? This cannot be undone.')) {
+        window.location.href = url;
+      }
+    }
+  </script>
+
+</body>
+</html>

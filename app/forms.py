@@ -30,6 +30,6 @@ class SubjectForm(FlaskForm):
 
 class AttendanceForm(FlaskForm):
     subject = SelectField("Select a subject", choices=[], validators=[DataRequired()])
-    date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
+    date = DateField(validators=[DataRequired()], format="%Y-%m-%d")
     start_time = TimeField(validators=[DataRequired()], format="%H:%M")
     end_time = TimeField(validators=[DataRequired()], format="%H:%M")

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark attendance — ClassLog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+  {% with back_url=url_for('attendance.attendance_history'), back_label='History' %}
+    {% include 'partials/topbar.html' %}
+  {% endwith %}
+
+  <main class="form-main">
+    <div class="form-panel">
+      <h1>Edit attendance</h1>
+      <p class="form-subtext">Edit the attendance you've already logged.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-list">
+            {% for category, message in messages %}
+              <li class="flash-message category-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('attendance.edit_attendance', subject_id=subject_id, id=id) }}" novalidate>
+        {{ form.hidden_tag() if form and form.hidden_tag }}
+
+        <div class="field-group">
+          {{ form.subject.label }}
+          {{ form.subject() }}
+          {% if form.subject.errors %}
+            {% for error in form.subject.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="field-group">
+          {{ form.date.label }}
+          {{ form.date() }}
+          {% if form.date.errors %}
+            {% for error in form.date.errors %}
+              <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            {{ form.start_time.label }}
+            {{ form.start_time() }}
+            {% if form.start_time.errors %}
+              {% for error in form.start_time.errors %}
+                <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group">
+            {{ form.end_time.label }}
+            {{ form.end_time() }}
+            {% if form.end_time.errors %}
+              {% for error in form.end_time.errors %}
+                <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="status-actions">
+          <button type="submit" name="status" value="present" class="btn-status btn-present">Present</button>
+          <button type="submit" name="status" value="absent" class="btn-status btn-absent">Absent</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

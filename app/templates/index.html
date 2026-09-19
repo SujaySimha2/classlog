@@ -38,7 +38,7 @@
               <circle class="donut-track" cx="48" cy="48" r="40"></circle>
               <circle class="donut-progress" cx="48" cy="48" r="40"></circle>
             </svg>
-            <span class="donut-label">{{ subject.attendance_percent }}%</span>
+            <span class="donut-label">{{ subject.attendance | round(2) }}%</span>
           </div>
           <div class="subject-info">
             <p class="subject-name">{{ subject.name }}</p>
