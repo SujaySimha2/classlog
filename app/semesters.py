@@ -71,3 +71,38 @@ def delete_semester(semester_id):
     else:
         flash("Semester not found or you do not have permission to delete it.", category="error")
     return redirect(url_for("semesters.list_semesters"))
+
+@semesters_bp.route("/semesters/<semester_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_semester(semester_id):
+    uid = session.get("current_user_id")
+    semester = Semester.query.filter_by(id=semester_id, uid=uid).first()
+    if semester and semester.uid == uid:
+        form = SemesterForm()
+        form.name.default = semester.name
+        form.start_date.default = semester.start_date
+        form.end_date.default = semester.end_date
+        form.process()
+        if request.method == "POST":
+            name = request.form.get("name")
+            start_date_str = request.form.get("start_date")
+            end_date_str = request.form.get("end_date")
+
+            # Convert string dates to datetime objects
+            start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d").date() #pyright:ignore
+            end_date = datetime.datetime.strptime(end_date_str, "%Y-%m-%d").date() #pyright:ignore
+
+            if start_date >= end_date:
+                flash("Start date must be before end date.", category="error")
+                return redirect(url_for("semesters.edit_semester", semester_id=semester_id))
+            else:
+                semester.name = name
+                semester.start_date = start_date
+                semester.end_date = end_date
+                db.session.commit()
+                flash("Semester updated successfully.", category="success")
+                return redirect(url_for("semesters.list_semesters"))
+        return render_template("edit_semester.html", form=form, semester=semester)
+    else:
+        flash("Semester not found or you do not have permission to edit it.", category="error")
+        return redirect(url_for("semesters.list_semesters"))

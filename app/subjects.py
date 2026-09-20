@@ -60,4 +60,29 @@ def delete_subject(subject_id):
         flash("Subject deleted successfully.", category="success")
         return redirect(url_for("subjects.manage_subjects"))
     else:
-        return abort(403)
+        flash("Subject not found or you do not have permission to delete it.", category="error")
+        return redirect(url_for("subjects.manage_subjects"))
+
+@subjects_bp.route("/subjects/<subject_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_subject(subject_id):
+    semester_id = session.get("current_semester_id")
+    subject = Subject.query.filter_by(id=subject_id, sid=semester_id).first()
+    if subject and subject.user.id == session.get("current_user_id"): #pyright:ignore
+        form = SubjectForm()
+        form.name.default = subject.name
+        form.code.default = subject.code
+        form.min_attendance.default = subject.min_attendance
+        form.process()
+        if request.method == "POST":
+            subject.name = request.form.get("name")
+            subject.code = request.form.get("code")
+            subject.min_attendance = request.form.get("min_attendance")
+            db.session.add(subject)
+            db.session.commit()
+            flash("Subject updated successfully.", category="success")
+            return redirect(url_for("subjects.manage_subjects"))
+        return render_template("edit_subject.html", form=form, subject=subject)
+    else:
+        flash("Subject not found or you do not have permission to edit it.", category="error")
+        return redirect(url_for("subjects.manage_subjects"))

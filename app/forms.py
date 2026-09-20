@@ -18,8 +18,8 @@ class LoginForm(FlaskForm):
 
 class SemesterForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
-    start_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
-    end_date = DateField(validators=[DataRequired()], format="%d-%m-%Y")
+    start_date = DateField(validators=[DataRequired()], format="%Y-%m-%d")
+    end_date = DateField(validators=[DataRequired()], format="%Y-%m-%d")
     submit = SubmitField()
 
 class SubjectForm(FlaskForm):

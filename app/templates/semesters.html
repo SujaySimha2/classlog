@@ -31,18 +31,30 @@
     <div class="semester-grid">
       {% for semester in semesters %}
         <a class="semester-card" href="{{ url_for('semesters.semester_change', semester_id=semester.id) }}">
-          <button
-            type="button"
-            class="semester-delete"
-            aria-label="Delete {{ semester.name }}"
-            data-delete-url="{{ url_for('semesters.delete_semester', semester_id=semester.id) }}"
-            data-semester-name="{{ semester.name }}"
-            onclick="event.preventDefault(); event.stopPropagation(); confirmDeleteSemester(this);"
-          >
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 7H20M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M18 7L17.3 19.1C17.2 19.99 16.44 20.67 15.55 20.67H8.45C7.56 20.67 6.8 19.99 6.7 19.1L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+          <div class="semester-card-actions">
+            <button
+              type="button"
+              class="semester-action action-edit"
+              aria-label="Edit {{ semester.name }}"
+              onclick="event.preventDefault(); event.stopPropagation(); window.location.href='{{ url_for('semesters.edit_semester', semester_id=semester.id) }}';"
+            >
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.475 5.408l2.117 2.117m-1.414-3.53a1.5 1.5 0 0 1 2.121 0l1.293 1.292a1.5 1.5 0 0 1 0 2.122l-10.607 10.607-4.242 1.06 1.06-4.242L17.182 3.997z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="semester-action action-delete"
+              aria-label="Delete {{ semester.name }}"
+              data-delete-url="{{ url_for('semesters.delete_semester', semester_id=semester.id) }}"
+              data-semester-name="{{ semester.name }}"
+              onclick="event.preventDefault(); event.stopPropagation(); confirmDeleteSemester(this);"
+            >
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 7H20M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M18 7L17.3 19.1C17.2 19.99 16.44 20.67 15.55 20.67H8.45C7.56 20.67 6.8 19.99 6.7 19.1L6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
           <p class="semester-name">{{ semester.name }}</p>
           <p class="semester-dates">{{ semester.start_date.strftime('%b %-d, %Y') }} &ndash; {{ semester.end_date.strftime('%b %-d, %Y') }}</p>
         </a>
