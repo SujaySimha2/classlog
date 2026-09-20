@@ -28,10 +28,9 @@ def signup():
                 flash("Email already exists!", category="error")
             else:
                 user = User(id=id, username=username, email=email, password_hash=password) # pyright: ignore
-                session["current_user_id"] = user.id
                 db.session.add(user)
                 db.session.commit()
-                return redirect("/")
+                return redirect(url_for("auth.login"))
         return render_template("signup.html", form=SignUpForm())
 
     else:
