@@ -33,3 +33,7 @@ class AttendanceForm(FlaskForm):
     date = DateField(validators=[DataRequired()], format="%Y-%m-%d")
     start_time = TimeField(validators=[DataRequired()], format="%H:%M")
     end_time = TimeField(validators=[DataRequired()], format="%H:%M")
+
+class VerifyForm(FlaskForm):
+    code = StringField(validators=[DataRequired()])
+    submit = SubmitField()

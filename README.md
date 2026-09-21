@@ -93,11 +93,15 @@ tells you what that means in practice on any given Tuesday. This does.
 
 ![](screenshots/2026-09-20-12-25-47-image.png)
 
+#### Verification code page
+
+![](screenshots/2026-09-21-18-55-51-image.png)
+
 ## Todo
 
 - [ ] Create a profile page to view and edit profile details
 
-- [ ] Implement verification checks for emails using Flask-Mail
+- [x] Implement verification checks for emails using Flask-Mail
 
 - [ ] Integrate OAuth authentication
 

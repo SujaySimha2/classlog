@@ -277,7 +277,57 @@ a {
   margin-top: 0.35rem;
 }
 
-/* ---------- Flashed messages ---------- */
+/* ---------- Verification code ---------- */
+
+.otp-group {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 1.75rem;
+}
+
+.otp-box {
+  width: 46px;
+  height: 56px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-radius: 2px;
+}
+
+.otp-box:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.otp-resend {
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.65;
+  margin: 1.25rem 0 0;
+}
+
+.otp-resend button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.otp-resend button:hover {
+  color: var(--accent-hover);
+}
+
+
 
 .flash-list {
   list-style: none;
@@ -949,5 +999,15 @@ a {
   .history-actions {
     order: 4;
     margin-left: auto;
+  }
+
+  .otp-group {
+    gap: 0.4rem;
+  }
+
+  .otp-box {
+    width: 38px;
+    height: 48px;
+    font-size: 1.2rem;
   }
 }
